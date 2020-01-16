@@ -1,0 +1,48 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Dog/Cat Prediction{% endblock %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static', filename='fade.css')}}" type="text/css">
+<style>
+h1, p {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    padding-top: 10%;
+}
+
+p {
+    font-size: large;
+}
+
+.hidden {
+    display: none;
+}
+
+.md-form {
+    text-align: center;
+}
+</style>
+{% endblock %}
+{% block body %}
+{{ super() }}
+<body>
+    <h1>Dog/Cat Predictor</h1 >
+    {% if not result %}
+    <p>Please upload your image of a dog or a cat and press Predict!</p>
+    {% else %}
+    <p>Your prediction is {{ result }}!</p>
+    {% endif %}
+    {% if form %}
+    <form class="md-form" action="{{ url_for('predictor') }}" enctype="multipart/form-data" method="POST">
+        {{ form.img(class_="hidden") }}
+        <label class="btn btn-primary" for="img">Upload Image</label><br>
+        <p></p>
+        {{ form.submit }}
+        {{ form.csrf_token }}
+    </form>
+    {% endif %}
+</body>
+{% endblock %}
